@@ -8,102 +8,94 @@ using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Core.Interfaces.Services;
 
 namespace TestingWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
-        private readonly NorthwindContext _context;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeesController(NorthwindContext context)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _context = context;
+            _employeeService = employeeService;
         }
 
-        // GET: api/Employees
+        // GET: api/Employee
         [HttpGet]
-        public async Task<ActionResult<IList<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees()
         {
-            return Ok(await _context.Employees.ToListAsync());
+            var employees = await _employeeService.GetAllEmployeesAsync();
+
+            return Ok(employees);
         }
 
-        // GET: api/Employees/5
+        // GET: api/Employee/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<Employee>> GetEmployeeById(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await _employeeService.GetEmployeeByIdAsync(id);
 
             if (employee == null)
             {
                 return NotFound();
             }
 
-            return employee;
+            return Ok(employee);
         }
 
-        // PUT: api/Employees/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/Employee
+        [HttpPost]
+        public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var createdEmployee = await _employeeService.CreateEmployeeAsync(employee);
+
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = createdEmployee.EmployeeId }, createdEmployee);
+        }
+
+        // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> UpdateEmployee(int id, Employee employee)
         {
             if (id != employee.EmployeeId)
             {
-                return BadRequest();
+                return BadRequest(); 
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
-
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return NoContent();
+            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(employee);
+
+            if (updatedEmployee == null)
+            {
+                return NotFound(); 
+            }
+
+            return NoContent(); 
         }
 
-        // POST: api/Employees
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
-        {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetEmployee), new { id = employee.EmployeeId }, employee);
-        }
-
-        // DELETE: api/Employees/5
+        // DELETE: api/Employee/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var deleted = await _employeeService.DeleteEmployeeAsync(id);
+
+            if (!deleted)
             {
                 return NotFound();
             }
 
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employees.Any(e => e.EmployeeId == id);
+            return NoContent(); 
         }
     }
 }

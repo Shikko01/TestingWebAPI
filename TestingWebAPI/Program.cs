@@ -1,6 +1,10 @@
-using DataAccess;
+using Business.Services;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using DataAccess.Entities;
+using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
+using TestingWebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,6 +29,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 }
 
 app.UseHttpsRedirection();
