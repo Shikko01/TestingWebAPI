@@ -20,31 +20,31 @@ namespace Business.Services
 
         public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
         {
-            return await _employeeRepository.GetAllEmployeesAsync();
+            return await _employeeRepository.GetAllAsync();
         }
 
         public async Task<Employee> GetEmployeeByIdAsync(int id)
         {
-            return await _employeeRepository.GetEmployeeByIdAsync(id);
+            return await _employeeRepository.GetByIdAsync(id);
         }
 
         public async Task<Employee> CreateEmployeeAsync(Employee employee)
         {
-            return await _employeeRepository.CreateEmployeeAsync(employee);
+            return await _employeeRepository.AddAsync(employee);
         }
 
         public async Task<Employee> UpdateEmployeeAsync(Employee employee)
         {
-            return await _employeeRepository.UpdateEmployeeAsync(employee);
+            return await _employeeRepository.UpdateAsync(employee);
         }
 
         public async Task<bool> DeleteEmployeeAsync(int id)
         {
-            var employee = await _employeeRepository.GetEmployeeByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(id);
 
             if (employee != null)
             {
-                await _employeeRepository.DeleteEmployeeAsync(id);
+                await _employeeRepository.DeleteAsync(id);
                 return true;
             }
 
