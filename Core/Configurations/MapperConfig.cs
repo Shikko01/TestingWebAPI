@@ -9,6 +9,8 @@ namespace Core.Configurations
         public MapperConfig()
         {
             CreateMap<Employee, EmployeeDTO>().ReverseMap();
+            CreateMap<Employee, EmployeeCreateDTO>().ReverseMap();
+            CreateMap<Employee, EmployeeUpdateDTO>().ReverseMap();
         }
     }
 }

@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Business.Services
 {
@@ -36,9 +37,20 @@ namespace Business.Services
             return await _employeeRepository.AddAsync(employee);
         }
 
-        public async Task<Employee> UpdateEmployeeAsync(Employee employee)
+        public async Task<EmployeeUpdateDTO> UpdateEmployeeAsync(int id, EmployeeUpdateDTO employee)
         {
-            return await _employeeRepository.UpdateAsync(employee);
+            var existingEmployee = await _employeeRepository.GetByIdAsync(id);
+
+            if (existingEmployee == null)
+            {
+                return null; // Or throw an exception, depending on your error handling
+            }
+
+            await _employeeRepository.UpdateAsync(existingEmployee);
+
+            var model = _mapper.Map<EmployeeUpdateDTO>(employee);
+
+            return model;
         }
 
         public async Task<bool> DeleteEmployeeAsync(int id)

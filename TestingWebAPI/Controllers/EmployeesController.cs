@@ -55,26 +55,16 @@ namespace TestingWebAPI.Controllers
 
         // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee(int id, Employee employee)
+        public async Task<IActionResult> UpdateEmployee(int id, EmployeeUpdateDTO employee)
         {
-            if (id != employee.EmployeeId)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(employee);
+            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);
 
             if (updatedEmployee == null)
             {
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok(updatedEmployee);
         }
 
         // DELETE: api/Employee/5
