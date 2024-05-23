@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using Core.Entities;
-using DataAccess.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Core.Interfaces.Services;
+using DataAccess.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TestingWebAPI.Controllers
 {
@@ -17,19 +11,23 @@ namespace TestingWebAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IMapper mapper)
         {
             _employeeService = employeeService;
+            _mapper = mapper;
         }
 
         // GET: api/Employee
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees()
+        public async Task<ActionResult<IEnumerable<EmployeeDTO>>> GetAllEmployees()
         {
             var employees = await _employeeService.GetAllEmployeesAsync();
 
-            return Ok(employees);
+            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
+
+            return Ok(model);
         }
 
         // GET: api/Employee/5
@@ -66,7 +64,7 @@ namespace TestingWebAPI.Controllers
         {
             if (id != employee.EmployeeId)
             {
-                return BadRequest(); 
+                return BadRequest();
             }
 
             if (!ModelState.IsValid)
@@ -78,10 +76,10 @@ namespace TestingWebAPI.Controllers
 
             if (updatedEmployee == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
-            return NoContent(); 
+            return NoContent();
         }
 
         // DELETE: api/Employee/5
@@ -95,7 +93,7 @@ namespace TestingWebAPI.Controllers
                 return NotFound();
             }
 
-            return NoContent(); 
+            return NoContent();
         }
     }
 }
