@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json;
 
 namespace TestingWebAPI.Middleware
 {
@@ -22,7 +23,7 @@ namespace TestingWebAPI.Middleware
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("error: response id 200"))
+                if (ex.Message.Contains("Error: response status is 200"))
                 {
                     _logger.LogError(ex, "Response ID 200 error occurred.");
 
@@ -35,6 +36,9 @@ namespace TestingWebAPI.Middleware
 
                     context.Response.StatusCode = errorResponse.Status;
                     context.Response.ContentType = "application/json";
+
+                    //var json = JsonSerializer.Serialize(errorResponse);
+                    //await context.Response.WriteAsync(json);
 
                     await context.Response.WriteAsJsonAsync(errorResponse);
                 }
