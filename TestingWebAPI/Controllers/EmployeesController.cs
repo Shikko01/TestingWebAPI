@@ -97,16 +97,22 @@ namespace TestingWebAPI.Controllers
         }
 
         [HttpGet("aboveAge/{targetAge}")]
-        public IActionResult GetEmployeesAboveAge(int targetAge)
+        public async Task<IActionResult> GetEmployeesAboveAge(int targetAge)
         {
             if (targetAge < 0)
             {
                 return BadRequest("Target age cannot be negative.");
             }
 
-            var employees = _employeeService.GetEmployeesAboveAge(targetAge);
+            var employees = await _employeeService.GetEmployeesAboveAge(targetAge);
 
-            return Ok(employees);
+            if (employees == null || !employees.Any())
+            {
+                return NotFound("No employees found matching the criteria.");
+            }
+
+            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
+            return Ok(model);
         }
     }
 }
