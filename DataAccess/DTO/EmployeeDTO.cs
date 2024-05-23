@@ -13,7 +13,7 @@ namespace DataAccess.DTO
         [Required(ErrorMessage = "Employee Lasty Name is required")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Employee Last Name must be between 2 and 50 characters")]
         public string? LastName { get; set; }
+
         public DateTime BirthDate { get; set; }
-        public int Age { get; set; }
     }
 }

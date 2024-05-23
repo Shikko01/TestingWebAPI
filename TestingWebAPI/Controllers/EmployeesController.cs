@@ -95,5 +95,18 @@ namespace TestingWebAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("aboveAge/{targetAge}")]
+        public IActionResult GetEmployeesAboveAge(int targetAge)
+        {
+            if (targetAge < 0)
+            {
+                return BadRequest("Target age cannot be negative.");
+            }
+
+            var employees = _employeeService.GetEmployeesAboveAge(targetAge);
+
+            return Ok(employees);
+        }
     }
 }

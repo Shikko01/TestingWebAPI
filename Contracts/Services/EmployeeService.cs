@@ -50,5 +50,10 @@ namespace Business.Services
 
             return false;
         }
+
+        public async Task<IEnumerable<Employee>> GetEmployeesAboveAge(int targetAge)
+        {
+            return await _employeeRepository.GetAllAsync();
+        }
     }
 }
