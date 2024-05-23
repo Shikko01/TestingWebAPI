@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Core.Entities;
-using DataAccess.DTO;
+using Core.DTO;
 
-namespace DataAccess.Configurations
+namespace Core.Configurations
 {
     public class MapperConfig : Profile
     {

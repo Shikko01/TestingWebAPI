@@ -1,4 +1,6 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.DTO;
+using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 
@@ -7,15 +9,21 @@ namespace Business.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
+        public async Task<IEnumerable<EmployeeDTO>> GetAllEmployeesAsync()
         {
-            return await _employeeRepository.GetAllAsync();
+            var employees = await _employeeRepository.GetAllAsync();
+
+            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
+
+            return model;
         }
 
         public async Task<Employee> GetEmployeeByIdAsync(int id)
@@ -46,9 +54,13 @@ namespace Business.Services
             return false;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesAboveAge(int targetAge)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesAboveAge(int targetAge)
         {
-            return await _employeeRepository.GetAllAsync();
+            var employees = await _employeeRepository.GetEmployeesAboveAge(targetAge);
+
+            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
+
+            return model;
         }
     }
 }

@@ -1,7 +1,7 @@
 using Business.Services;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
-using DataAccess.Configurations;
+using Core.Configurations;
 using DataAccess.Entities;
 using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;

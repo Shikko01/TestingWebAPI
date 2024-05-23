@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Interfaces.Services;
-using DataAccess.DTO;
+using Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TestingWebAPI.Controllers
@@ -11,12 +10,10 @@ namespace TestingWebAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeService employeeService, IMapper mapper)
+        public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
-            _mapper = mapper;
         }
 
         // GET: api/Employee
@@ -25,9 +22,7 @@ namespace TestingWebAPI.Controllers
         {
             var employees = await _employeeService.GetAllEmployeesAsync();
 
-            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
-
-            return Ok(model);
+            return Ok(employees);
         }
 
         // GET: api/Employee/5
@@ -111,9 +106,7 @@ namespace TestingWebAPI.Controllers
                 return NotFound("No employees found matching the criteria.");
             }
 
-            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
-
-            return Ok(model);
+            return Ok(employees);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataAccess.DTO
+namespace Core.DTO
 {
     public class EmployeeDTO
     {
