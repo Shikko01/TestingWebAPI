@@ -8,10 +8,8 @@ namespace DataAccess.Repositories
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
-        private readonly IMapper _mapper;
-        public EmployeeRepository(NorthwindContext context, IMapper mapper) : base(context)
-        {
-            _mapper = mapper;
+        public EmployeeRepository(NorthwindContext context) : base(context)
+        {   
         }
 
         public async Task<IEnumerable<Employee>> GetEmployeesAboveAge(int targetAge)

@@ -112,6 +112,7 @@ namespace TestingWebAPI.Controllers
             }
 
             var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
+
             return Ok(model);
         }
     }
