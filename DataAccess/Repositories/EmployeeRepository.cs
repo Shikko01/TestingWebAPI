@@ -16,7 +16,7 @@ namespace DataAccess.Repositories
         {
             var cutoffDate = DateTime.Now.AddYears(-targetAge);
 
-            return await _context.Employees.Where(e => e.BirthDate < cutoffDate).ToListAsync();
+            return await _context.Employees.Where(e => e.BirthDate.HasValue && e.BirthDate < cutoffDate).ToListAsync();
         }
     }
 }
