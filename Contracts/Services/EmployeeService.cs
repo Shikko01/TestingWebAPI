@@ -3,7 +3,6 @@ using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Business.Services
 {
@@ -73,7 +72,18 @@ namespace Business.Services
 
         public async Task<IEnumerable<EmployeeDTO>> GetEmployeesAboveAge(int targetAge)
         {
-            var employees = await _employeeRepository.GetEmployeesAboveAge(targetAge);
+            var cutoffDate = DateTime.Now.AddYears(-targetAge);
+
+            var employees = await _employeeRepository.GetAsync(e => e.BirthDate.HasValue && e.BirthDate < cutoffDate);
+
+            var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
+
+            return model;
+        }
+
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByCountryAsync(string country)
+        {
+            var employees = await _employeeRepository.GetAsync(e => e.Country == country);
 
             var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
 

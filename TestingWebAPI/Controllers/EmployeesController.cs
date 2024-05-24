@@ -50,7 +50,7 @@ namespace TestingWebAPI.Controllers
 
             var createdEmployee = await _employeeService.CreateEmployeeAsync(employee);
 
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = createdEmployee.EmployeeId }, createdEmployee);
+            return Ok(createdEmployee);
         }
 
         // PUT: api/Employee/5
@@ -95,6 +95,14 @@ namespace TestingWebAPI.Controllers
             {
                 return NotFound("No employees found matching the criteria.");
             }
+
+            return Ok(employees);
+        }
+
+        [HttpGet("byCountry/{country}")]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByCountry(string country)
+        {
+            var employees = await _employeeService.GetEmployeesByCountryAsync(country);
 
             return Ok(employees);
         }

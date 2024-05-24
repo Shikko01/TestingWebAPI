@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces.Repositories;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DataAccess.Repositories
 {
@@ -16,6 +17,18 @@ namespace DataAccess.Repositories
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return await query.ToListAsync();
         }
 
         public virtual async Task<T> GetByIdAsync(int id)
