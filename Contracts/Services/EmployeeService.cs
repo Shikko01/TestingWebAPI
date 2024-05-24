@@ -37,18 +37,23 @@ namespace Business.Services
             return await _employeeRepository.AddAsync(employee);
         }
 
-        public async Task<EmployeeUpdateDTO> UpdateEmployeeAsync(int id, EmployeeUpdateDTO employee)
+        public async Task<EmployeeCreateUpdateDTO> UpdateEmployeeAsync(int id, EmployeeCreateUpdateDTO employee)
         {
             var existingEmployee = await _employeeRepository.GetByIdAsync(id);
 
             if (existingEmployee == null)
             {
-                return null; // Or throw an exception, depending on your error handling
+                return null;
             }
 
-            await _employeeRepository.UpdateAsync(existingEmployee);
+            existingEmployee.FirstName = employee.FirstName;
+            existingEmployee.LastName = employee.LastName;
+            existingEmployee.BirthDate = employee.BirthDate;
+            existingEmployee.Country = employee.Country;
 
-            var model = _mapper.Map<EmployeeUpdateDTO>(employee);
+            var updateEmployee = await _employeeRepository.UpdateAsync(existingEmployee);
+
+            var model = _mapper.Map<EmployeeCreateUpdateDTO>(updateEmployee);
 
             return model;
         }

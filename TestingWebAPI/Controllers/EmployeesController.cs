@@ -55,7 +55,7 @@ namespace TestingWebAPI.Controllers
 
         // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee(int id, EmployeeUpdateDTO employee)
+        public async Task<IActionResult> UpdateEmployee(int id, EmployeeCreateUpdateDTO employee)
         {
             var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);
 

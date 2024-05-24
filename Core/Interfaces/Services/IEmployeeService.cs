@@ -8,7 +8,7 @@ namespace Core.Interfaces.Services
         Task<IEnumerable<EmployeeDTO>> GetAllEmployeesAsync();
         Task<Employee> GetEmployeeByIdAsync(int id);
         Task<Employee> CreateEmployeeAsync(Employee employee);
-        Task<EmployeeUpdateDTO> UpdateEmployeeAsync(int id, EmployeeUpdateDTO employee);
+        Task<EmployeeCreateUpdateDTO> UpdateEmployeeAsync(int id, EmployeeCreateUpdateDTO employee);
         Task<bool> DeleteEmployeeAsync(int id);
         Task<IEnumerable<EmployeeDTO>> GetEmployeesAboveAge(int targetAge);
     }
