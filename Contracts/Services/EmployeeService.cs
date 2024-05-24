@@ -123,6 +123,7 @@ namespace Business.Services
             existingEmployee.IsActive = false;
 
             await _employeeRepository.UpdateAsync(existingEmployee);
+
             return true;
         }
     }
