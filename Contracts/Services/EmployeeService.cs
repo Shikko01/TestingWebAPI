@@ -3,7 +3,6 @@ using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Business.Services
 {
@@ -31,6 +30,11 @@ namespace Business.Services
         {
             var employee = await _employeeRepository.GetByIdAsync(id);
 
+            if (employee == null)
+            {
+                return null;
+            }
+
             var model = _mapper.Map<EmployeeDTO>(employee);
 
             return model;
@@ -38,7 +42,7 @@ namespace Business.Services
 
         public async Task<EmployeeCreateUpdateDTO> CreateEmployeeAsync(EmployeeCreateUpdateDTO employee)
         {
-            var newEmployee = new Employee() 
+            var newEmployee = new Employee
             {
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
@@ -46,8 +50,8 @@ namespace Business.Services
                 Country = employee.Country,
             };
 
-
             var createdEmployee = await _employeeRepository.AddAsync(newEmployee);
+
             var model = _mapper.Map<EmployeeCreateUpdateDTO>(createdEmployee);
 
             return model;
@@ -105,6 +109,11 @@ namespace Business.Services
             var model = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
 
             return model;
+        }
+
+        public async Task SoftDeleteEmployeeAsync(int id)
+        {
+            await _employeeRepository.SoftDeleteAsync(id);
         }
     }
 }

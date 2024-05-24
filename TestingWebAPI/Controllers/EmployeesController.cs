@@ -71,12 +71,7 @@ namespace TestingWebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var deleted = await _employeeService.DeleteEmployeeAsync(id);
-
-            if (!deleted)
-            {
-                return NotFound();
-            }
+            await _employeeService.SoftDeleteEmployeeAsync(id);
 
             return NoContent();
         }

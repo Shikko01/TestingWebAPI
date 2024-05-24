@@ -40,6 +40,7 @@ public partial class Employee
     public int? ReportsTo { get; set; }
 
     public string? PhotoPath { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public virtual ICollection<Employee> InverseReportsToNavigation { get; set; } = new List<Employee>();
 

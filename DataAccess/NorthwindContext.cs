@@ -225,6 +225,9 @@ public partial class NorthwindContext : DbContext
             entity.Property(e => e.Region).HasMaxLength(15);
             entity.Property(e => e.Title).HasMaxLength(30);
             entity.Property(e => e.TitleOfCourtesy).HasMaxLength(25);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+
+            entity.HasQueryFilter(e => e.IsActive);
 
             entity.HasOne(d => d.ReportsToNavigation).WithMany(p => p.InverseReportsToNavigation)
                 .HasForeignKey(d => d.ReportsTo)
