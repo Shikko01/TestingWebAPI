@@ -1,5 +1,4 @@
 ﻿using Core.DTO;
-using Core.Entities;
 
 namespace Core.Interfaces.Services
 {

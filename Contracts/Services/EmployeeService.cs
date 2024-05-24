@@ -111,9 +111,19 @@ namespace Business.Services
             return model;
         }
 
-        public async Task SoftDeleteEmployeeAsync(int id)
+        public async Task<bool> SoftDeleteEmployeeAsync(int id)
         {
-            await _employeeRepository.SoftDeleteAsync(id);
+            var existingEmployee = await _employeeRepository.GetByIdAsync(id);
+
+            if (existingEmployee == null)
+            {
+                return false;
+            }
+
+            existingEmployee.IsActive = false;
+
+            await _employeeRepository.UpdateAsync(existingEmployee);
+            return true;
         }
     }
 }

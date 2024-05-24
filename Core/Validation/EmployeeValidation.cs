@@ -11,7 +11,7 @@ namespace Core.Validation
                 return true;
             }
 
-            DateTime dateOfBirth = (DateTime)value;
+            var dateOfBirth = (DateTime)value;
             return dateOfBirth <= DateTime.Now;
         }
     }
@@ -20,14 +20,14 @@ namespace Core.Validation
     {
         public override bool IsValid(object value)
         {
-            int minYear = 1900;
+            var minYear = 1900;
 
             if (value == null)
             {
                 return true;
             }
 
-            DateTime dateOfBirth = (DateTime)value;
+            var dateOfBirth = (DateTime)value;
             return dateOfBirth.Year >= minYear;
         }
     }

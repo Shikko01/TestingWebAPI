@@ -68,8 +68,8 @@ namespace TestingWebAPI.Controllers
         }
 
         // DELETE: api/Employee/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        [HttpPut("softDelete/{id}")]
+        public async Task<IActionResult> SoftDelete(int id)
         {
             await _employeeService.SoftDeleteEmployeeAsync(id);
 
@@ -95,7 +95,7 @@ namespace TestingWebAPI.Controllers
         }
 
         [HttpGet("byCountry/{country}")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByCountry(string country)
+        public async Task<ActionResult<IEnumerable<EmployeeDTO>>> GetEmployeesByCountry(string country)
         {
             var employees = await _employeeService.GetEmployeesByCountryAsync(country);
 

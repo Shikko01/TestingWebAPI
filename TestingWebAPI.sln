@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingWebAPI", "TestingWebAPI\TestingWebAPI.csproj", "{67DA1128-5021-4B4E-B1CA-E1D335FB1A9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingWebAPI", "TestingWebAPI\TestingWebAPI.csproj", "{67DA1128-5021-4B4E-B1CA-E1D335FB1A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{C0E66DE2-3FFD-476E-846F-5ED250EA680E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{53D98B2F-A9F6-460B-BD32-729833ADE8A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{53D98B2F-A9F6-460B-BD32-729833ADE8A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{B2838BFC-B50D-42E8-B389-3B499B0C4896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{B2838BFC-B50D-42E8-B389-3B499B0C4896}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Contracts\Business.csproj", "{9F617E51-816C-450F-ADF3-4AFBBB24C42C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Contracts\Business.csproj", "{9F617E51-816C-450F-ADF3-4AFBBB24C42C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{67DA1128-5021-4B4E-B1CA-E1D335FB1A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67DA1128-5021-4B4E-B1CA-E1D335FB1A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67DA1128-5021-4B4E-B1CA-E1D335FB1A9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0E66DE2-3FFD-476E-846F-5ED250EA680E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0E66DE2-3FFD-476E-846F-5ED250EA680E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0E66DE2-3FFD-476E-846F-5ED250EA680E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0E66DE2-3FFD-476E-846F-5ED250EA680E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53D98B2F-A9F6-460B-BD32-729833ADE8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53D98B2F-A9F6-460B-BD32-729833ADE8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53D98B2F-A9F6-460B-BD32-729833ADE8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
