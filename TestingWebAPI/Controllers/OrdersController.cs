@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TestingWebAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -11,7 +13,7 @@ namespace TestingWebAPI.Controllers
             _orderService = orderService;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("hardDelete/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _orderService.DeleteOrderAsync(id);
