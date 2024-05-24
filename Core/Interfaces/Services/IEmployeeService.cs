@@ -11,6 +11,6 @@ namespace Core.Interfaces.Services
         Task<bool> DeleteEmployeeAsync(int id);
         Task<IEnumerable<EmployeeDTO>> GetEmployeesAboveAge(int targetAge);
         Task<IEnumerable<EmployeeDTO>> GetEmployeesByCountryAsync(string country);
-        Task SoftDeleteEmployeeAsync(int id);
+        Task<bool> SoftDeleteEmployeeAsync(int id);
     }
 }
