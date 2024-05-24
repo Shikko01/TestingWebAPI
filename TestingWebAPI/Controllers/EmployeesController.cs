@@ -41,7 +41,7 @@ namespace TestingWebAPI.Controllers
 
         // POST: api/Employee
         [HttpPost]
-        public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+        public async Task<ActionResult<EmployeeCreateUpdateDTO>> CreateEmployee(EmployeeCreateUpdateDTO employee)
         {
             if (!ModelState.IsValid)
             {

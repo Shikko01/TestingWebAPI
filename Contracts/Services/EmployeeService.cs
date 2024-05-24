@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Business.Services
 {
@@ -26,14 +27,30 @@ namespace Business.Services
             return model;
         }
 
-        public async Task<Employee> GetEmployeeByIdAsync(int id)
+        public async Task<EmployeeDTO> GetEmployeeByIdAsync(int id)
         {
-            return await _employeeRepository.GetByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(id);
+
+            var model = _mapper.Map<EmployeeDTO>(employee);
+
+            return model;
         }
 
-        public async Task<Employee> CreateEmployeeAsync(Employee employee)
+        public async Task<EmployeeCreateUpdateDTO> CreateEmployeeAsync(EmployeeCreateUpdateDTO employee)
         {
-            return await _employeeRepository.AddAsync(employee);
+            var newEmployee = new Employee() 
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                BirthDate = employee.BirthDate,
+                Country = employee.Country,
+            };
+
+
+            var createdEmployee = await _employeeRepository.AddAsync(newEmployee);
+            var model = _mapper.Map<EmployeeCreateUpdateDTO>(createdEmployee);
+
+            return model;
         }
 
         public async Task<EmployeeCreateUpdateDTO> UpdateEmployeeAsync(int id, EmployeeCreateUpdateDTO employee)

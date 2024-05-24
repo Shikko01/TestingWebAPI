@@ -6,8 +6,8 @@ namespace Core.Interfaces.Services
     public interface IEmployeeService
     {
         Task<IEnumerable<EmployeeDTO>> GetAllEmployeesAsync();
-        Task<Employee> GetEmployeeByIdAsync(int id);
-        Task<Employee> CreateEmployeeAsync(Employee employee);
+        Task<EmployeeDTO> GetEmployeeByIdAsync(int id);
+        Task<EmployeeCreateUpdateDTO> CreateEmployeeAsync(EmployeeCreateUpdateDTO employee);
         Task<EmployeeCreateUpdateDTO> UpdateEmployeeAsync(int id, EmployeeCreateUpdateDTO employee);
         Task<bool> DeleteEmployeeAsync(int id);
         Task<IEnumerable<EmployeeDTO>> GetEmployeesAboveAge(int targetAge);
