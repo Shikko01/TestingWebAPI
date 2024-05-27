@@ -26,11 +26,8 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Contracts\Business.csproj" />
+	  <ProjectReference Include="..\Core\Core.csproj" />
 	  <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Models\" />
 	</ItemGroup>
 
 </Project>

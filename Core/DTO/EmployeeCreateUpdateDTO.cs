@@ -1,5 +1,5 @@
-﻿using Core.Validation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Core.Validation; 
 
 namespace Core.DTO
 {

@@ -27,7 +27,7 @@ namespace TestingWebAPI.Controllers
 
         // GET: api/Employee/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployeeById(int id)
+        public async Task<ActionResult<EmployeeDTO>> GetEmployeeById(int id)
         {
             var employee = await _employeeService.GetEmployeeByIdAsync(id);
 
@@ -77,6 +77,7 @@ namespace TestingWebAPI.Controllers
         }
 
         [HttpGet("aboveAge/{targetAge}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeDTO>))]
         public async Task<IActionResult> GetEmployeesAboveAge(int targetAge)
         {
             if (targetAge < 0)
