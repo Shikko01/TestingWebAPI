@@ -2,6 +2,6 @@
 {
     public interface IOrderService
     {
-        Task DeleteOrderAsync(int id);
+        Task DeleteOrderAsync(int orderId);
     }
 }

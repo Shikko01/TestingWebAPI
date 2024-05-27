@@ -10,19 +10,5 @@ namespace DataAccess.Repositories
         public OrderRepository(NorthwindContext context) : base(context)
         {
         }
-
-        public async Task DeleteAsync(int id)
-        {
-            var order = await _context.Orders.Include(o => o.OrderDetails).FirstOrDefaultAsync(o => o.OrderId == id);
-
-            if (order != null)
-            {
-                _context.OrderDetails.RemoveRange(order.OrderDetails);
-
-                _context.Orders.Remove(order);
-
-                await _context.SaveChangesAsync();
-            }
-        }
     }
 }
