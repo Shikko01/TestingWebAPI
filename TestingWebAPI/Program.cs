@@ -6,6 +6,7 @@ using DataAccess.Entities;
 using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using TestingWebAPI.Middleware;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

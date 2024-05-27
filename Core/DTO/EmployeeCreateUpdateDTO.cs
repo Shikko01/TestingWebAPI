@@ -13,8 +13,7 @@ namespace Core.DTO
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Employee Last Name must be between 2 and 50 characters")]
         public string LastName { get; set; }
 
-        [PastDate(ErrorMessage = "Date of birth cannot be in the future.")]
-        [LateDate(ErrorMessage = "Date of birth cannot be earlier then 1900.")]
+        [BirthDate]
         public DateTime? BirthDate { get; set; }
 
         [Required(ErrorMessage = "Country is required")]
