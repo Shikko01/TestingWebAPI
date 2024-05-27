@@ -1,6 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.DTO;
 using Core.Interfaces.Services;
-using Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TestingWebAPI.Controllers
@@ -55,6 +54,7 @@ namespace TestingWebAPI.Controllers
 
         // PUT: api/Employee/5
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeCreateUpdateDTO>))]
         public async Task<IActionResult> UpdateEmployee(int id, EmployeeCreateUpdateDTO employee)
         {
             var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);

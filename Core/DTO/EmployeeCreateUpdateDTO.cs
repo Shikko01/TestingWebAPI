@@ -14,7 +14,7 @@ namespace Core.DTO
         public string LastName { get; set; }
 
         [PastDate(ErrorMessage = "Date of birth cannot be in the future.")]
-        [LateDate(ErrorMessage = "Date of birth cannot be earlier than 1900.")]
+        [LateDate(ErrorMessage = "Date of birth cannot be earlier then 1900.")]
         public DateTime? BirthDate { get; set; }
 
         [Required(ErrorMessage = "Country is required")]
