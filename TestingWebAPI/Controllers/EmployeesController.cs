@@ -1,6 +1,7 @@
 ﻿using Core.DTO;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestingWebAPI.Controllers
 {
@@ -47,9 +48,16 @@ namespace TestingWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var createdEmployee = await _employeeService.CreateEmployeeAsync(employee);
+            try
+            {
+                var createdEmployee = await _employeeService.CreateEmployeeAsync(employee);
 
-            return Ok(createdEmployee);
+                return Ok(createdEmployee);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Employee/5
@@ -57,14 +65,21 @@ namespace TestingWebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeCreateUpdateDTO>))]
         public async Task<IActionResult> UpdateEmployee(int id, EmployeeCreateUpdateDTO employee)
         {
-            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);
-
-            if (updatedEmployee == null)
+            try
             {
-                return NotFound();
-            }
+                var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);
 
-            return Ok(updatedEmployee);
+                if (updatedEmployee == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(updatedEmployee);
+            }
+            catch(Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/Employee/5

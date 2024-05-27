@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Business.Services
 {
@@ -50,6 +51,11 @@ namespace Business.Services
                 Country = employee.Country,
             };
 
+            if (await _employeeRepository.ExistsAsync(employee.FirstName, employee.LastName))
+            {
+                throw new ValidationException("An employee with the same first and last name already exists.");
+            }
+
             var createdEmployee = await _employeeRepository.AddAsync(newEmployee);
 
             var model = _mapper.Map<EmployeeCreateUpdateDTO>(createdEmployee);
@@ -70,6 +76,11 @@ namespace Business.Services
             existingEmployee.LastName = employee.LastName;
             existingEmployee.BirthDate = employee.BirthDate;
             existingEmployee.Country = employee.Country;
+
+            if (await _employeeRepository.ExistsAsync(employee.FirstName, employee.LastName))
+            {
+                throw new ValidationException("An employee with the same first and last name already exists.");
+            }
 
             var updateEmployee = await _employeeRepository.UpdateAsync(existingEmployee);
 
