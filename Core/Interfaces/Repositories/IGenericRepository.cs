@@ -6,9 +6,9 @@ namespace Core.Interfaces.Repositories
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate);
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate);
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Expression<Func<T, bool>> predicate);
     }
 }

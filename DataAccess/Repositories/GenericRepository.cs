@@ -31,9 +31,14 @@ namespace DataAccess.Repositories
             return await query.ToListAsync();
         }
 
-        public virtual async Task<T> GetByIdAsync(int id)
+        public virtual async Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().FindAsync(id);
+            if (predicate == null)
+            {
+                return null;
+            }
+
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public virtual async Task<T> AddAsync(T entity)
@@ -56,13 +61,15 @@ namespace DataAccess.Repositories
             return entity;
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(Expression<Func<T, bool>> predicate)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(predicate);
 
-            _context.Set<T>().Remove(entity);
-
-            await _context.SaveChangesAsync();
+            if (entity != null)
+            {
+                _context.Set<T>().Remove(entity);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

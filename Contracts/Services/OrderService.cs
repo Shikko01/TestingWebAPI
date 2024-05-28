@@ -19,7 +19,7 @@ namespace Business.Services
         {
             await _orderDetailRepository.DeleteOrderDetails(orderId);
 
-            await _orderRepository.DeleteAsync(orderId);
+            await _orderRepository.DeleteAsync(p => p.OrderId == orderId);
         }
     }
 }

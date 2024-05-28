@@ -21,7 +21,7 @@ namespace Core.Validation
                 return new ValidationResult("Date of birth cannot be in the future.");
             }
 
-            int.TryParse(configuration["MinYear"], out int minYear);
+            int.TryParse(configuration["MinYear"], out var minYear);
 
             if (dateOfBirth.Year <= minYear)
             {

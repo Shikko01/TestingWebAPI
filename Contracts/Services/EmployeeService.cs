@@ -29,7 +29,7 @@ namespace Business.Services
 
         public async Task<EmployeeDTO> GetEmployeeByIdAsync(int id)
         {
-            var employee = await _employeeRepository.GetByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(e => e.EmployeeId == id);
 
             if (employee == null)
             {
@@ -65,7 +65,7 @@ namespace Business.Services
 
         public async Task<EmployeeCreateUpdateDTO> UpdateEmployeeAsync(int id, EmployeeCreateUpdateDTO employee)
         {
-            var existingEmployee = await _employeeRepository.GetByIdAsync(id);
+            var existingEmployee = await _employeeRepository.GetByIdAsync(e => e.EmployeeId == id);
 
             if (existingEmployee == null)
             {
@@ -91,11 +91,11 @@ namespace Business.Services
 
         public async Task<bool> DeleteEmployeeAsync(int id)
         {
-            var employee = await _employeeRepository.GetByIdAsync(id);
+            var employee = await _employeeRepository.GetByIdAsync(e => e.EmployeeId == id);
 
             if (employee != null)
             {
-                await _employeeRepository.DeleteAsync(id);
+                await _employeeRepository.DeleteAsync(p => p.EmployeeId == id);
                 return true;
             }
 
@@ -124,7 +124,7 @@ namespace Business.Services
 
         public async Task<bool> SoftDeleteEmployeeAsync(int id)
         {
-            var existingEmployee = await _employeeRepository.GetByIdAsync(id);
+            var existingEmployee = await _employeeRepository.GetByIdAsync(e => e.EmployeeId == id);
 
             if (existingEmployee == null)
             {

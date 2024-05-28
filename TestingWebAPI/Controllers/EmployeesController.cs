@@ -1,7 +1,6 @@
 ﻿using Core.DTO;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace TestingWebAPI.Controllers
 {
@@ -60,10 +59,9 @@ namespace TestingWebAPI.Controllers
             }
         }
 
-        // PUT: api/Employee/5
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeCreateUpdateDTO>))]
-        public async Task<IActionResult> UpdateEmployee(int id, EmployeeCreateUpdateDTO employee)
+        public async Task<ActionResult<EmployeeCreateUpdateDTO>> UpdateEmployee(int id, EmployeeCreateUpdateDTO employee)
         {
             try
             {
@@ -76,24 +74,29 @@ namespace TestingWebAPI.Controllers
 
                 return Ok(updatedEmployee);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
 
-        // DELETE: api/Employee/5
         [HttpPut("softDelete/{id}")]
-        public async Task<IActionResult> SoftDelete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeCreateUpdateDTO>))]
+        public async Task<ActionResult> SoftDelete(int id)
         {
-            await _employeeService.SoftDeleteEmployeeAsync(id);
+            var deletedEmployee = await _employeeService.SoftDeleteEmployeeAsync(id);
 
-            return NoContent();
+            if (deletedEmployee == false)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
 
         [HttpGet("aboveAge/{targetAge}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeDTO>))]
-        public async Task<IActionResult> GetEmployeesAboveAge(int targetAge)
+        public async Task<ActionResult<IEnumerable<EmployeeDTO>>> GetEmployeesAboveAge(int targetAge)
         {
             if (targetAge < 0)
             {

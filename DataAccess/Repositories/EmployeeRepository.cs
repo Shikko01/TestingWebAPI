@@ -13,8 +13,7 @@ namespace DataAccess.Repositories
 
         public async Task<bool> ExistsAsync(string firstName, string lastName)
         {
-            return await _context.Employees.AnyAsync(e => e.FirstName.ToLower() == firstName.ToLower() 
-                        && e.LastName.ToLower() == lastName.ToLower());
+            return await _context.Employees.AnyAsync(e => e.FirstName.ToLower() == firstName.ToLower() && e.LastName.ToLower() == lastName.ToLower());
         }
     }
 }
