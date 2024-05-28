@@ -21,14 +21,11 @@ namespace Core.Validation
                 return new ValidationResult("Date of birth cannot be in the future.");
             }
 
-            if (!int.TryParse(configuration["MinYear"], out var minYear))
-            {
-                return new ValidationResult("Invalid or missing 'MinYear' configuration.");
-            }
+            int.TryParse(configuration["MinYear"], out var minYear);
 
             if (dateOfBirth.Year <= minYear)
             {
-                return new ValidationResult($"Date of birth cannot be earlier then {minYear}.");
+                return new ValidationResult("Date of birth cannot be earlier then 1900.");
             }
 
             return ValidationResult.Success;
