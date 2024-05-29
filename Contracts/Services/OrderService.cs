@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -17,7 +18,7 @@ namespace Business.Services
 
         public async Task DeleteOrderAsync(int orderId)
         {
-            await _orderDetailRepository.DeleteOrderDetails(orderId);
+            await _orderDetailRepository.DeleteAllAsync(oD => oD.OrderId == orderId);
 
             await _orderRepository.DeleteAsync(p => p.OrderId == orderId);
         }

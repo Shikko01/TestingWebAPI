@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Core.Validation; 
 
 namespace Core.DTO
 {
@@ -13,8 +12,7 @@ namespace Core.DTO
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Employee Last Name must be between 2 and 50 characters")]
         public string LastName { get; set; }
 
-        [BirthDate]
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required(ErrorMessage = "Country is required")]
         public string Country { get; set; }

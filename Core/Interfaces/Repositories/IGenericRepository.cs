@@ -10,5 +10,8 @@ namespace Core.Interfaces.Repositories
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(Expression<Func<T, bool>> predicate);
+        Task DeleteAllAsync(Expression<Func<T, bool>> predicate);
+        Task<bool> CheckForDuplicateAsync(Expression<Func<T, bool>> predicate);
+
     }
 }

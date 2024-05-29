@@ -47,41 +47,28 @@ namespace TestingWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                var createdEmployee = await _employeeService.CreateEmployeeAsync(employee);
+            var createdEmployee = await _employeeService.CreateEmployeeAsync(employee);
 
-                return Ok(createdEmployee);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(createdEmployee);
+
         }
 
+        // PUT: api/Employee/5
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeCreateUpdateDTO>))]
         public async Task<ActionResult<EmployeeCreateUpdateDTO>> UpdateEmployee(int id, EmployeeCreateUpdateDTO employee)
         {
-            try
-            {
-                var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);
 
-                if (updatedEmployee == null)
-                {
-                    return NotFound();
-                }
+            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(id, employee);
 
-                return Ok(updatedEmployee);
-            }
-            catch (Exception e)
+            if (updatedEmployee == null)
             {
-                return BadRequest(e.Message);
+                return NotFound();
             }
+
+            return Ok(updatedEmployee);
         }
 
         [HttpPut("softDelete/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeCreateUpdateDTO>))]
         public async Task<ActionResult> SoftDelete(int id)
         {
             var deletedEmployee = await _employeeService.SoftDeleteEmployeeAsync(id);
@@ -95,7 +82,6 @@ namespace TestingWebAPI.Controllers
         }
 
         [HttpGet("aboveAge/{targetAge}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EmployeeDTO>))]
         public async Task<ActionResult<IEnumerable<EmployeeDTO>>> GetEmployeesAboveAge(int targetAge)
         {
             if (targetAge < 0)
