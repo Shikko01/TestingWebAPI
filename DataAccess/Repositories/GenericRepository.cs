@@ -83,7 +83,7 @@ namespace DataAccess.Repositories
             }
         }
 
-        public async Task<bool> CheckForDuplicateAsync(Expression<Func<T, bool>> predicate)
+        public async Task<bool> AnyExist(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().AnyAsync(predicate);
         }

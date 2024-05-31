@@ -139,15 +139,17 @@ namespace Business.Services
             return true;
         }
 
-        public async Task EnsureEmployeeDoesNotAlreadyExistAsync(Employee employee)
+        private async Task EnsureEmployeeDoesNotAlreadyExistAsync(Employee employee)
         {
-            if (await _employeeRepository.CheckForDuplicateAsync(e => e.FirstName == employee.FirstName && e.LastName == employee.LastName))
-            {
+            if (await _employeeRepository.AnyExist(e => e.FirstName == employee.FirstName
+                                                         && e.LastName == employee.LastName
+                                                         && e.EmployeeId != employee.EmployeeId))
+            { 
                 throw new ValidationException("An employee with the same first and last name already exists.");
             }
         }
 
-        public ValidationResult Validate(DateTime dateOfBirth)
+        private ValidationResult Validate(DateTime dateOfBirth)
         {
             if (dateOfBirth >= DateTime.Now)
             {
@@ -167,7 +169,7 @@ namespace Business.Services
             return ValidationResult.Success;
         }
 
-        public void EnsureBirthDateValidation(EmployeeCreateUpdateDTO employee)
+        private void EnsureBirthDateValidation(EmployeeCreateUpdateDTO employee)
         {
             var validationResult = Validate(employee.BirthDate);
 
