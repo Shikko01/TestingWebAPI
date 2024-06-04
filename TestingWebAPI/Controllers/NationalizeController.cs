@@ -1,4 +1,5 @@
-﻿using Core.Interfaces.Services;
+﻿using Core.DTO;
+using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TestingWebAPI.Controllers
@@ -17,7 +18,7 @@ namespace TestingWebAPI.Controllers
         }
 
         [HttpGet("{id}/nationalities")]
-        public async Task<ActionResult> GetEmployeeNationalities(int id)
+        public async Task<ActionResult<IEnumerable<NationalizeResponseDTO>>> GetEmployeeNationalities(int id)
         {
             var employee = await _employeeService.GetEmployeeByIdAsync(id);
 
