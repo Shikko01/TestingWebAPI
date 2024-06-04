@@ -23,8 +23,9 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<INationalizeService, NationalizeService>();
 
-builder.Services.AddHttpClient<INationalizeService, NationalizeService>();
+builder.Services.AddHttpClient();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
