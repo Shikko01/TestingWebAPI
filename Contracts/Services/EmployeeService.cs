@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
 namespace Business.Services
@@ -10,11 +11,13 @@ namespace Business.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IConfiguration configuration)
         {
             _employeeRepository = employeeRepository;
+            _configuration = configuration;
             _mapper = mapper;
         }
 
@@ -43,6 +46,8 @@ namespace Business.Services
 
         public async Task<EmployeeCreateUpdateDTO> CreateEmployeeAsync(EmployeeCreateUpdateDTO employee)
         {
+            EnsureBirthDateValidation(employee);
+
             var newEmployee = new Employee
             {
                 FirstName = employee.FirstName,
@@ -51,10 +56,7 @@ namespace Business.Services
                 Country = employee.Country,
             };
 
-            if (await _employeeRepository.ExistsAsync(employee.FirstName, employee.LastName))
-            {
-                throw new ValidationException("An employee with the same first and last name already exists.");
-            }
+            await EnsureEmployeeDoesNotAlreadyExistAsync(newEmployee);
 
             var createdEmployee = await _employeeRepository.AddAsync(newEmployee);
 
@@ -72,15 +74,14 @@ namespace Business.Services
                 return null;
             }
 
+            EnsureBirthDateValidation(employee);
+
             existingEmployee.FirstName = employee.FirstName;
             existingEmployee.LastName = employee.LastName;
             existingEmployee.BirthDate = employee.BirthDate;
             existingEmployee.Country = employee.Country;
 
-            if (await _employeeRepository.ExistsAsync(employee.FirstName, employee.LastName))
-            {
-                throw new ValidationException("An employee with the same first and last name already exists.");
-            }
+            await EnsureEmployeeDoesNotAlreadyExistAsync(existingEmployee);
 
             var updateEmployee = await _employeeRepository.UpdateAsync(existingEmployee);
 
@@ -136,6 +137,46 @@ namespace Business.Services
             await _employeeRepository.UpdateAsync(existingEmployee);
 
             return true;
+        }
+
+        private async Task EnsureEmployeeDoesNotAlreadyExistAsync(Employee employee)
+        {
+            if (await _employeeRepository.AnyExist(e => e.FirstName == employee.FirstName
+                                                         && e.LastName == employee.LastName
+                                                         && e.EmployeeId != employee.EmployeeId))
+            { 
+                throw new ValidationException("An employee with the same first and last name already exists.");
+            }
+        }
+
+        private ValidationResult Validate(DateTime dateOfBirth)
+        {
+            if (dateOfBirth >= DateTime.Now)
+            {
+                return new ValidationResult("Date of birth cannot be in the future.");
+            }
+
+            if (!int.TryParse(_configuration["MinYear"], out var minYear))
+            {
+                return new ValidationResult("Invalid or missing 'MinYear' configuration.");
+            }
+
+            if (dateOfBirth.Year <= minYear)
+            {
+                return new ValidationResult($"Date of birth cannot be earlier then {minYear}.");
+            }
+
+            return ValidationResult.Success;
+        }
+
+        private void EnsureBirthDateValidation(EmployeeCreateUpdateDTO employee)
+        {
+            var validationResult = Validate(employee.BirthDate);
+
+            if (validationResult != ValidationResult.Success)
+            {
+                throw new ValidationException(validationResult.ErrorMessage);
+            }
         }
     }
 }

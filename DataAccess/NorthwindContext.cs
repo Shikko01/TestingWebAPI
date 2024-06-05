@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Core.Entities;
-using Microsoft.IdentityModel.Protocols;
 using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Entities;

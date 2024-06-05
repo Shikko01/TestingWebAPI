@@ -71,5 +71,21 @@ namespace DataAccess.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public virtual async Task DeleteAllAsync(Expression<Func<T, bool>> predicate)
+        {
+            var entitiesToDelete = _context.Set<T>().Where(predicate);
+
+            if (entitiesToDelete.Any())
+            {
+                _context.Set<T>().RemoveRange(entitiesToDelete);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> AnyExist(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
+        }
     }
 }
